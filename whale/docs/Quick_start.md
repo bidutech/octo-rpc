@@ -11,8 +11,8 @@ Whale 依赖下列组件:
 * [log4cplus](https://github.com/log4cplus/log4cplus): 日志库
 * [zookeeper](https://github.com/apache/zookeeper): zookeeper c api
 * [rapidjson](https://github.com/Tencent/rapidjson): json解析库
-* [octoidl](): octo-mns 通用公共依赖
-* [mns-sdk](): octo-mns 通用c++ 服务注册发现sdk
+* [octoidl](https://github.com/Meituan-Dianping/octo-ns): octo-mns 通用公共依赖
+* [mns-sdk](https://github.com/Meituan-Dianping/octo-ns): octo-mns 通用c++ 服务注册发现sdk
 
 
 # 依赖支持
@@ -67,8 +67,7 @@ thrift 和 zookeeper 一般很少有yum源，请自行参照官方使用文档�
 **clone下载仓库** 
  
 ```bash   
-> git clone octo-rpc      
-> git checkout develop  
+> git clone https://github.com/Meituan-Dianping/octo-rpc.git      
 ```
 
 **使用 build.sh 初始化**
@@ -110,7 +109,7 @@ thrift 和 zookeeper 一般很少有yum源，请自行参照官方使用文档�
 
 
 ### Whale 和 OCTO-mns一起使用
-> 见 Whale 配置手册 和 OCTO-mns环境搭建
+> 见 [Whale 配置手册](Whale-config.md) 和 [OCTO-mns环境搭建](https://github.com/Meituan-Dianping/octo-ns)
 
 
 

@@ -1,24 +1,24 @@
-## Dorado使用说明手册
+# Dorado使用说明手册
 
 本文档将演示如何应用 Dorado 进行服务的发布和订阅，更多示例参见工程中dorado-demo目录
 
-### 1.创建工程
+## 1.创建工程
 
 首先需要安装 JDK7+ 和 Maven 3+ 的环境。我们新建一个Maven 工程，并引入 Dorado 的依赖
 Dorado jar包的打包流程可以参照 [Dorado源码编译说明](manual-developer/Compile.md)
 
-### 2.快速入门
+## 2.快速入门
 
->OCTO服务治理体系的服务是以***Appkey***命名，每个服务都必须有一个唯一的***Appkey***来标识你的服务，比如com.meituan.{应用名}.{模块名}.{服务名}，
+>OCTO服务治理体系的服务是以*Appkey*命名，每个服务都必须有一个唯一的*Appkey*来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*，
  即OCTO体系的服务注册与发现都基于Appkey进行的。
  
 Dorado的默认使用Thrift作为Body协议，下面的demo基于Thrift进行介绍：
 
-#### 2.1 服务定义
+### 2.1 服务定义
 
-##### 2.1.1 定义Thrift IDL
+#### 2.1.1 定义Thrift IDL
 
->更多Thrift IDL语法见：http://thrift.apache.org/docs/idl
+>更多Thrift IDL语法见：[Thrift指南](manual-thrift/ThriftSpecification.md)
 ```
 namespace java com.meituan.dorado.demo.thrift.api
 service HelloService
@@ -28,18 +28,19 @@ service HelloService
 }
 ```
 
-##### 2.1.2 Thrift文件生成IDL类
+#### 2.1.2 Thrift文件生成IDL类
 
 Dorado使用libthrift **0.9.3**的版本，
 
-**注意：** 如果使用其他版本的libthrift且出现了不兼容情况，可以对dorado-protocol-octo模块的octoProtocolHeader.thrift 使用对应的libthrift版本重新编译生成
+**注意：** 如果使用其他版本的libthrift且出现了不兼容情况，可以对dorado-protocol-octo模块的*octoProtocolHeader.thrift*使用对应的libthrift版本重新编译生成
 
 thrift --gen `<language>` `<Thrift filename>` 生成对应的IDL文件
 
-##### 2.1.3 提供接口对应的实现类
+运行demo可以直接使用：[HelloService.java](manual-thrift/api/HelloService.java)
 
-````
-import org.apache.thrift.TException;
+#### 2.1.3 提供接口对应的实现类
+
+```java
 public class HelloServiceImpl implements HelloService.Iface {
     @Override
     public String sayHello(String name) {
@@ -50,19 +51,19 @@ public class HelloServiceImpl implements HelloService.Iface {
         return "Bye " + username;
     }
 }
-````
+```
 
-#### 2.2 服务发布
+### 2.2 服务发布
 
 目前Dorado支持XML文件配置和API方式进行服务的发布
 
-##### 2.2.1 XML配置方式
+#### 2.2.1 XML配置方式
 
-###### 2.2.1.1 定义XML文件
+##### 2.2.1.1 定义XML文件
 
 定义xml文件并放在resources目录下
 
-````
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -78,11 +79,11 @@ public class HelloServiceImpl implements HelloService.Iface {
         <property name="serviceConfig" ref="helloServiceConfig"/>   <!-- 服务接口配置 -->
     </bean>
 </beans>
-````
+```
 
-###### 2.2.1.2 启动服务
+##### 2.2.1.2 启动服务
 
-````
+```java
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ThriftProvider {
@@ -90,11 +91,11 @@ public class ThriftProvider {
         ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("xx/server.xml");
     }
 }
-````
+```
 
-##### 2.2.2 API方式
+#### 2.2.2 API方式
 
-````
+```java
 import com.meituan.dorado.config.service.ProviderConfig;
 import com.meituan.dorado.config.service.ServiceConfig;
 import com.meituan.dorado.demo.thrift.api.HelloService;
@@ -114,17 +115,17 @@ public class QuickStartServer {
         config.init();                                                // 启动服务
     }
 }
-````
+```
 
-#### 2.3 服务调用
+### 2.3 服务调用
 
 目前Dorado支持XML文件配置和API方式进行服务访问调用
 
-##### 2.3.1 XML配置方式
+#### 2.3.1 XML配置方式
 
-###### 2.3.1.1 定义XML文件
+##### 2.3.1.1 定义XML文件
 
-````
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
@@ -135,31 +136,30 @@ public class QuickStartServer {
         <property name="registry" value="mock"/>      <!-- 服务发现的zk地址 -->
     </bean>
 </beans>
-````
+```
 
-###### 2.3.1.2 XML方式调用
+##### 2.3.1.2 XML方式调用
 
-````
-import org.apache.thrift.TException;
+```java
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
     private static HelloService.Iface client;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         BeanFactory beanFactory = new ClassPathXmlApplicationContext("client.xml");
         client = (HelloService.Iface) beanFactory.getBean("clientProxy");
 
         // 同步   
-        String result = client.sayHello("meituan");
+        String result = client.sayHello("dorado");
         
         
         // 异步
         ResponseFuture<String> future = AsyncContext.getContext().asyncCall(new Callable<String>() {
           	@Override
           	public String call() throws Exception {
-            	    return client.sayHello("meituan async");
+            	    return client.sayHello("dorado async");
           	}
         });
         String result = future.get();
@@ -168,7 +168,7 @@ public class Client {
         ResponseFuture<String> future2 = AsyncContext.getContext().asyncCall(new Callable<String>() {
           @Override
           public String call() throws Exception {
-            return userservice.sayHello("meituan async callback");
+            return userservice.sayHello("dorado async callback");
           }
         });
         
@@ -184,14 +184,13 @@ public class Client {
         });
     }
 }
-````
+```
 
-##### 2.3.2 API方式
+#### 2.3.2 API方式
 
-````
+```java
 import com.meituan.dorado.config.service.ReferenceConfig;
 import com.meituan.dorado.demo.thrift.api.HelloService;
-import org.apache.thrift.TException;
 import org.junit.Assert;
 
 public class QuickStartClient {
@@ -208,13 +207,13 @@ public class QuickStartClient {
         String result = client.sayHello("meituan");       
     }
 }
-````
+```
 
-### 3. 参数配置
+## 3. 参数配置
 
 Dorado通过配置调用端和服务端的多个参数来支持不同的实现，具体详见 **[参数配置](manual-user/Config.md)** 
 
-### 4. 特性支持
+## 4. 特性支持
 
 **[单端口多服务](manual-user/Port2MultiService.md)** 
 

@@ -22,7 +22,7 @@ Java编译器特性、服务缓存以及一些初始化操作，使服务一般�
 * XML方式
 ````
 <bean id="serverPublisher" class="com.meituan.dorado.config.service.spring.ServiceBean">
-    <! -- ...... -->
+    <!-- ...... -->
     <property name="warmup" value="180"/>
 </bean>
 ````

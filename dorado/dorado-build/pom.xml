@@ -51,14 +51,24 @@
         </dependency>
         <dependency>
             <groupId>com.meituan.octo</groupId>
-            <artifactId>dorado-registry-mns</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.meituan.octo</groupId>
             <artifactId>dorado-registry-mock</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
+        <!-- 需要部署服务的集成模块 -->
+        <!-- MNS注册中心，需要mns-invoker依赖 -->
+        <!--<dependency>-->
+            <!--<groupId>com.meituan.octo</groupId>-->
+            <!--<artifactId>dorado-registry-mns</artifactId>-->
+            <!--<version>${project.parent.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- Cat应用监控，需要cat-client依赖 -->
+        <!--<dependency>-->
+            <!--<groupId>com.meituan.octo</groupId>-->
+            <!--<artifactId>dorado-trace-cat</artifactId>-->
+            <!--<version>${project.parent.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.meituan.octo</groupId>
@@ -177,8 +187,11 @@
                                     <include>com.meituan.octo:dorado-transport-netty</include>
                                     <include>com.meituan.octo:dorado-transport-httpnetty</include>
                                     <include>com.meituan.octo:dorado-registry-zookeeper</include>
-                                    <include>com.meituan.octo:dorado-registry-mns</include>
                                     <include>com.meituan.octo:dorado-registry-mock</include>
+                                    <!-- 需要mns-invoker依赖 -->
+                                    <!--<include>com.meituan.octo:dorado-registry-mns</include>-->
+                                    <!-- 需要cat-client依赖 -->
+                                    <!--<include>com.meituan.octo:dorado-trace-cat</include>-->
                                 </includes>
                             </artifactSet>
                             <transformers>

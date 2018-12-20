@@ -13,17 +13,17 @@ dorado提供多种负载均衡算法，业务可以通过SPI定义自己的负�
 
 #### 1.1 xml文件方式
 
-````
+```xml
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean" destroy-method="destroy">
-  <!-- ......  -->
+  <!-- ...省略其他配置...  -->
   <property name="loadBalancePolicy" value="random"/>
 </bean>
-````
+```
 
 #### 1.2 API方式
 
-````
- ReferenceConfig<HelloService.Iface> config = new ReferenceConfig<>();
- // ......
+```java
+ ReferenceConfig config = new ReferenceConfig();
+ // ...省略其他配置...
  config.setLoadBalancePolicy("random");
-````
+```

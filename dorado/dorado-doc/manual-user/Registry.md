@@ -28,60 +28,61 @@ Dorado同时支持通过Zookeeper来进行服务的注册与发现，使用该�
 
 * MNS
 
-````
+```xml
 <bean id="serverPublisher" class="com.meituan.dorado.config.service.spring.ServiceBean">
     <!-- ...省略其他配置... -->
     <property name="registry" value="mns"/>                  <!-- 使用OCTO-NS 做注册注册 -->
 </bean>
-````
-````
+```
+```xml
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean">
     <!-- ...省略其他配置... -->
     <property name="registry" value="mns"/>                  <!-- 使用OCTO-NS 做服务发现 -->
 </bean>
-````
+```
 * Zookeeper
 
-````
+```xml
 <bean id="serverPublisher" class="com.meituan.dorado.config.service.spring.ServiceBean">
     <!-- ...省略其他配置... -->
     <property name="registry" value="zookeeper://ip:port"/>  <!-- 使用Zookeeper 做服务注册 -->
 </bean>
-````
-````
+```
+```xml
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean">
     <!-- ...省略其他配置... -->
     <property name="registry" value="zookeeper://ip:port"/> <!-- 使用Zookeeper 做服务发现 -->
 </bean>
-````
+```
 
 * Mock
 
-````
+```xml
 <bean id="serverPublisher" class="com.meituan.dorado.config.service.spring.ServiceBean">
     <!-- ...省略其他配置... -->
     <property name="registry" value="mock"/>                <!-- mock方式, 伪注册 -->
 </bean>
-````
-````
+```
+```
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean">
     <!-- ...省略其他配置... -->
     <property name="directConnAddress" value="ip:port,ip:port"/> <!-- 直连配置, 可配置多个节点 -->
     <property name="registry" value="mock"/>                <!-- mock方式, 直连访问时，可不配置-->
 </bean>
-````
+```
 
 ### 2.1 API方式
 
-````
+```java
  // 服务端
  ProviderConfig config = new ProviderConfig();
  // ...省略其他配置...
  // config.setRegistry("mns");
-````
-````
+```
+
+```java
  // 调用端
  ReferenceConfig config = new ReferenceConfig();
  // ...省略其他配置...
  // config.setRegistry("mns");
-````
+```

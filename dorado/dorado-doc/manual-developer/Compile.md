@@ -42,7 +42,7 @@ mvn clean package -Dmaven.test.skip=true
 
 如果需要自定义生成jar包含的模块内容，可以修改dorado-build的pom文件，更新include包含的模块，同时在dorado-build的pom中**增加该模块的依赖**，具体可见dorado-build/pom.xml。
 
-````
+```xml
 <build>
     <plugins>
         <plugin>
@@ -83,4 +83,4 @@ mvn clean package -Dmaven.test.skip=true
         </plugin>
     </plugins>
 </build>
-````
+```

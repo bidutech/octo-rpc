@@ -1,7 +1,7 @@
 
 # Dorado 注册中心
 
-OCTO服务治理体系的服务是以Appkey命名，每个服务都必须有一个唯一的Appkey来标识你的服务，比如com.meituan.{应用名}.{模块名}.{服务名}，
+OCTO服务治理体系的服务是以Appkey命名，每个服务都必须有一个唯一的Appkey来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*，
 即OCTO体系的服务注册与发现都基于Appkey进行的。
 
 Dorado 目前支持三种服务注册方式，分别是 MNS、Zookeeper、Mock
@@ -11,7 +11,7 @@ Dorado 目前支持三种服务注册方式，分别是 MNS、Zookeeper、Mock
 ### 1.1 MNS(OCTO-NS)
 
 MNS是本次开源的OCTO中的命名服务组件(OCTO-NS)，作为注册中心，框架服务节点只需与本地Agent交互，减少网络开销。
-具体的实现原理和使用方式详见(待补充链接)
+具体的实现原理和使用方式详见[OCTO-NS](https://github.com/Meituan-Dianping/octo-ns)
 
 ### 1.2 Zookeeper
 

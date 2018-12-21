@@ -1,7 +1,7 @@
 # OCTO - Dorado
 
 ## 简要介绍
-- Dorado是OCTO（链接）生态中的一员，为Java服务提供具备治理功能的RPC通信框架。美团内部服务之间使用OCTO协议进行通信，默认支持Thrift，便于不同语言服务之间互通。
+- Dorado是OCTO生态中的一员，为Java服务提供具备治理功能的RPC通信框架。美团内部服务之间使用OCTO协议进行通信，默认支持Thrift，便于不同语言服务之间互通。
 
 - Dorado提供了丰富的服务注册/发现、路由、负载均衡、容错等功能来满足服务治理需要。
 
@@ -35,6 +35,8 @@
 - [快速开始](dorado-doc/QuickStart.md)
 
 - [使用说明手册](dorado-doc/Manual.md)
+
+- [构建Jar](dorado-doc/manual-developer/Compile.md)
 
 ## 开源协议
 Dorado基于[Apache License 2.0](LICENSE)协议。

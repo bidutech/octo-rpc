@@ -1,7 +1,9 @@
 
 ## Dorado 负载均衡
 
-dorado提供多种负载均衡算法，业务可以通过SPI定义自己的负载均衡策略
+Dorado目前提供两种负载均衡策略
+- 使用者也可以通过SPI扩展自己的LoadBalance
+- 框架通过SPI接口前缀判断使用的负载均衡策略
 
 | 算法 | 名称 | 说明 |
 | ------ | ------ | ------ |
@@ -16,7 +18,7 @@ dorado提供多种负载均衡算法，业务可以通过SPI定义自己的负�
 ```xml
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean" destroy-method="destroy">
   <!-- ...省略其他配置...  -->
-  <property name="loadBalancePolicy" value="random"/>
+  <property name="loadBalancePolicy" value="random"/>   <!-- 权重随机 -->
 </bean>
 ```
 
@@ -25,5 +27,5 @@ dorado提供多种负载均衡算法，业务可以通过SPI定义自己的负�
 ```java
  ReferenceConfig config = new ReferenceConfig();
  // ...省略其他配置...
- config.setLoadBalancePolicy("random");
+ config.setLoadBalancePolicy("roundRobin");      <!-- 权重轮询 -->
 ```

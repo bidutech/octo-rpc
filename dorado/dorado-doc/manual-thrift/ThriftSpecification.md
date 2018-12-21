@@ -264,132 +264,69 @@ void test() throws (1:GenericException genericException);//声明抛出自定义
 Service支持继承，一个service可使用extends关键字继承另一个service
 
 # 3. 应用举例
-## 3.1 定义一个IDL:
+## 3.1 定义一个IDL
 
 ```
-namespace cpp thrift.example
-
-
-
-namespace java thrift.example
-
-
-
-enum Tweet Type {
-
-
-
-TWEET,
-
-
-
-RETWEET = 2,
-
-
-
-DM = 0xa,
-
-
-
-REPLY
-
-
-
+enum TweetType {
+    TWEET,
+    RETWEET = 2,
+    DM = 0xa,
+    REPLY
 }
 
-
+const i32 DEFAULT_AGE = 18;
 
 struct Location {
-
-
-
-1: required double latitude;
-
-
-
-2: required double longitude;
-
-
-
+    1: required double latitude;
+    2: required double longitude;
 }
 
-
-
-structTweet {
-
-
-
-1: required i32 userId;
-
-
-
-2: required string userName;
-
-
-
-3: required string text;
-
-
-
-4: optional Location loc;
-
-
-
-5: optional TweetType tweetType = TweetType.TWEET;
-
-
-
-16: optional string language = "english";
-
-
-
+struct Tweet {
+    1: required i32 userId;
+    2: required string userName;
+    3: required string text;
+    4: optional Location loc;
+    5: optional TweetType tweetType = TweetType.TWEET;
+    16: optional i32 age = DEFAULT_AGE;
 }
-
-
 
 typedef list<Tweet> TweetList
 
-
-
 struct TweetSearchResult {
-
-
-
-1: TweetList tweets;
-
+    1: TweetList tweets;
 }
 
-
-
-consti32 MAX_RESULTS = 100;
-
-
+exception TwitterUnavailable {
+    1: string message;
+}
 
 service Twitter {
 
+    //Base Type
+    bool testBool(1:bool b);
+    byte testByte(1:byte b);
+    i16 testI16(1:i16 i);
+    i32 testI32(1:i32 i);
+    i64 testI64(1:i64 i);
+    double testDouble(1:double d);
+    binary testBinary(1:binary b);
+    string testString(1:string s);
 
+    //Containers
+    list<string> testList(1:list<string> l);
+    set<string> testSet(1:set<string> s);
+    map<string, string> testMap(1:map<string, string> m);
 
-void ping(),
-
-
-
-bool postTweet(1:Tweet tweet);
-
-
-
-TweetSearchResult searchTweets(1:string query);
-
-
-
-oneway void zip()
-
-
-
+    //Other
+    void testVoid();
+    string testReturnNull();
+    TweetSearchResult testStruct(1:string query);
+    string testException(1:Tweet tweet) throws (1:TwitterUnavailable unavailable);
 }
 ```
 
 ## 3.2 通过IDL文件编译生成Java源码
-在http://thrift.apache.org/ 下载安装Thrift编译器 (Dorado扩展协议模块中使用的是0.9.3版本)
+在https://thrift.apache.org/tutorial/ 下载安装Thrift编译器 (Dorado扩展协议模块中使用的是0.9.3版本)
 有两种方式可以生成Java代码
 1. 命令方式
 ```
@@ -419,27 +356,7 @@ thrift --gen <language> <Thrift filename>
 
 ## 3.3 Java语言
 ### 3.3.1 产生的文件
-一个单独的文件（Constants.java）包含所有的常量定义。
-
-每个结构体，枚举或者服务各占一个文件
-
-$ tree gen-java
-
-`– thrift
-
-`– example
-
-|– Constants.java
-
-|– Location.java
-
-|– Tweet.java
-
-|– TweetSearchResult.java
-
-|– TweetType.java
-
-`– Twitter.java
+![ThriftFileExample](../img/ThriftFileExample.tiff)
 
 ### 3.3.2 类型对应
 - bool: boolean
@@ -484,6 +401,8 @@ Thrift把所有的常量放在一个叫Constants的public类中，每个常量�
 
 - 修改服务名，不建议这么做
 
+- 服务端和调用端的Thrift版本不同，对通信无影响
+
 ## 3.2 不兼容情况
 - 新增加required字段
 
@@ -496,4 +415,6 @@ Thrift把所有的常量放在一个叫Constants的public类中，每个常量�
 - 删除方法参数、修改参数id
 
 - 删除方法
+
+- 编译源码版本和运行版本最好保持一致，高版本对低版本也存在不兼容情况
 

@@ -12,7 +12,6 @@ Dorado提供下列的参数配置
 |         | serviceInterface | 服务接口 | | 接口的全限定名，不包括iface | 
 |         | registry | 服务发现配置 |  | [服务注册说明](Registry.md) |             
 | 可选配置 | protocol | 协议类型 | thrift | 默认OCTO协议 + Thrift协议 |   
-|         | callWay | 调用类型 | sync | |             
 |         | serialize | 序列化方式 | thrift | |                
 |         | timeout | 调用超时 | 1000 |  |                
 |         | methodTimeout | 方法级别超时 | | [方法超时配置说明](MethodTimeout.md) |                
@@ -36,7 +35,7 @@ Dorado提供下列的参数配置
 |         | port | 服务端口号 | | |
 |         | serviceInterface | 服务接口 | | 接口的全限定名，包含类路径 | 
 |         | serviceImpl | 接口实现类 | | 类的全限定名 |
-|         | registry | 服务注册url | mock | [服务注册说明](Registry.md) |                      
+|         | registry | 服务注册配置 | mock | [服务注册说明](Registry.md) |                      
 | 可选配置 | protocol | 协议类型 | thrift | 默认OCTO协议 + Thrift协议 |                
 |         | serialize | 序列化方式 | thrift | |                
 |         | weight | 服务节点权重 | 10 |  |   

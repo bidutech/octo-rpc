@@ -4,15 +4,16 @@
 
 ## 1.创建工程
 
-首先需要安装 JDK7+ 和 Maven 3+ 的环境。我们新建一个Maven 工程，并引入 Dorado 的依赖
-Dorado jar包的打包流程可以参照 [Dorado源码编译说明](manual-developer/Compile.md)
+- 首先需要安装 JDK7+ 和 Maven 3+ 并配置好环境
+- 新建一个Maven 工程，pom引入 Dorado 的依赖
+   - 获取Dorado Jar见 [Dorado构建Jar](manual-developer/Compile.md)
 
 ## 2.快速入门
 
->OCTO服务治理体系的服务是以*Appkey*命名，每个服务都必须有一个唯一的*Appkey*来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*，
- 即OCTO体系的服务注册与发现都基于Appkey进行的。
+>OCTO服务治理体系的服务是以*Appkey*命名，每个服务都必须有一个唯一的*Appkey*来标识你的服务，比如 ***com.meituan.{应用名}.{模块名}.{服务名}*** ，
+ 即OCTO体系的服务注册与发现都是基于Appkey进行的。
  
-Dorado的默认使用Thrift作为Body协议，下面的demo基于Thrift进行介绍：
+Dorado的默认使用Thrift作为Body协议，下面的Demo基于Thrift进行介绍：
 
 ### 2.1 服务定义
 
@@ -30,13 +31,12 @@ service HelloService
 
 #### 2.1.2 Thrift文件生成IDL类
 
-Dorado使用libthrift **0.9.3**的版本，
+>自动生成Java源码方式，见[Thrift指南](manual-thrift/ThriftSpecification.md)
 
-**注意：** 如果使用其他版本的libthrift且出现了不兼容情况，可以对dorado-protocol-octo模块的*octoProtocolHeader.thrift*使用对应的libthrift版本重新编译生成
+- Dorado使用libthrift **0.9.3**的版本
+- 如果使用其他版本的libthrift且出现了不兼容情况，可以对dorado-protocol-octo模块的 ***octoProtocolHeader.thrift*** 使用对应的libthrift版本重新编译生成
 
-thrift --gen `<language>` `<Thrift filename>` 生成对应的IDL文件
-
-运行demo可以直接使用：[HelloService.java](manual-thrift/api/HelloService.java)
+运行Demo可以直接使用：[HelloService.java](manual-thrift/api/HelloService.java)
 
 #### 2.1.3 提供接口对应的实现类
 
@@ -234,3 +234,7 @@ Dorado通过配置调用端和服务端的多个参数来支持不同的实现�
 **[方法级别超时](manual-user/MethodTimeout.md)**
 
 **[优雅关闭](manual-user/ShutdownGracefully.md)** 
+
+## 5. 版本说明
+
+**[Dorado 版本管理](manual-developer/Version.md)**

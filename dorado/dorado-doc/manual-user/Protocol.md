@@ -53,7 +53,7 @@
 ### 2.2 协议发送说明
 - 若服务端支持OCTO协议，则发送OCTO协议
 
-- 若使用直连访问，为了更好的兼容默认是发送Thrift协议，需要发送OCTO协议则配置***remoteOctoProtocol***为true
+- 若使用直连访问，为了更好的兼容默认是发送Thrift协议，需要发送OCTO协议则配置 ***remoteOctoProtocol*** 为true
  
 
 

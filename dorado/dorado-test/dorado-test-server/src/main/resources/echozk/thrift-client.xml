@@ -25,8 +25,7 @@
         <property name="serviceInterface" value="com.meituan.dorado.test.echo.Echo"/> <!-- 接口类 -->
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
-        <property name="registry" value="zookeeper://10.24.41.248:2188"/>
-        <!--<property name="directConnAddress" value="localhost:9001,10.24.222.11:9001"/>-->
+        <property name="registry" value="zookeeper://ip:port"/>      <!-- zookeeper配置 -->
     </bean>
 
     <bean id="client2" class="com.meituan.dorado.config.service.spring.ReferenceBean">
@@ -35,8 +34,7 @@
         <property name="serviceInterface" value="com.meituan.dorado.test.echo.Echo"/> <!-- 接口类 -->
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
-        <property name="registry" value="zookeeper://10.24.41.248:2188"/>
-        <!--<property name="directConnAddress" value="localhost:9001"/>-->
+        <property name="registry" value="zookeeper://ip:port"/>      <!-- zookeeper配置 -->
     </bean>
 
     <bean id="client3" class="com.meituan.dorado.config.service.spring.ReferenceBean">
@@ -45,8 +43,7 @@
         <property name="serviceInterface" value="com.meituan.dorado.test.echo.Echo"/> <!-- 接口类 -->
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
-        <property name="registry" value="zookeeper://10.24.41.248:2188"/>
-        <!--<property name="directConnAddress" value="localhost:9001"/>-->
+        <property name="registry" value="zookeeper://ip:port"/>      <!-- zookeeper配置 -->
     </bean>
 
 </beans>

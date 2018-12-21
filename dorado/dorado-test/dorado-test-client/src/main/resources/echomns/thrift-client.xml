@@ -26,7 +26,6 @@
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
         <property name="registry" value="mns"/>
-        <!--<property name="directConnAddress" value="localhost:9001,10.24.222.11:9001"/>-->
     </bean>
 
     <bean id="client2" class="com.meituan.dorado.config.service.spring.ReferenceBean">
@@ -36,7 +35,6 @@
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
         <property name="registry" value="mns"/>
-        <!--<property name="directConnAddress" value="localhost:9001"/>-->
     </bean>
 
     <bean id="client3" class="com.meituan.dorado.config.service.spring.ReferenceBean">
@@ -46,7 +44,6 @@
         <property name="protocol" value="thrift"/>
         <property name="timeout" value="1000"/>
         <property name="registry" value="mns"/>
-        <!--<property name="directConnAddress" value="localhost:9001"/>-->
     </bean>
 
 </beans>

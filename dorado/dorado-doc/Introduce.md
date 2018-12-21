@@ -10,9 +10,9 @@
 
 ![ServiceArchitecture](https://github.com/Meituan-Dianping/octo-rpc/blob/master/dorado/dorado-doc/img/ServiceArchitecture.svg)
 
-   简单介绍下Dorado端对端交互机制：
+简单介绍下Dorado端对端交互机制：
 
-   OCTO服务治理体系的服务是以Appkey命名，每个服务都必须有一个唯一的Appkey来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*（使用者可以按照自己的规范定义），所以OCTO体系的注册发现都是基于Appkey进行的。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OCTO服务治理体系的服务是以Appkey命名，每个服务都必须有一个唯一的Appkey来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*（使用者可以按照自己的规范定义），所以OCTO体系的注册发现都是基于Appkey进行的。
 
 - **Provider服务端**
 
@@ -222,6 +222,3 @@
 # 5. 联系我们
 - Email: octo@meituan.com
 - Issues: [Issues](https://github.com/Meituan-Dianping/octo-rpc/issues)
-                             
-
-

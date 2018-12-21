@@ -8,13 +8,13 @@
 # 2.框架介绍
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先来看一下美团分布式框架的部署模式，为方便理解如下是一个简单的架构图：紫色方块是注册中心[OCTO-NS](https://github.com/Meituan-Dianping/octo-ns)，各节点不直接与注册中心服务交互，而是与本地Agent交互来进行服务注册发现，减少网络延迟和对注册中心的压力。绿色方块是监控跟踪服务，Dorado开源版本使用[Cat](https://github.com/dianping/cat)作为监控上报。说明一下，这里是以美团开源组件的应用作为示例，OCTO-NS(MNS)和Cat均是Dorado的扩展支持模块。
 
-![ServiceArchitecture](https://github.com/Meituan-Dianping/octo-rpc/tree/master/dorado/dorado-doc/img/ServiceArchitecture.svg)
+![ServiceArchitecture](https://github.com/Meituan-Dianping/octo-rpc/blob/master/dorado/dorado-doc/img/ServiceArchitecture.svg)
 
    简单介绍下Dorado端对端交互机制：
 
    OCTO服务治理体系的服务是以Appkey命名，每个服务都必须有一个唯一的Appkey来标识你的服务，比如*com.meituan.{应用名}.{模块名}.{服务名}*（使用者可以按照自己的规范定义），所以OCTO体系的注册发现都是基于Appkey进行的。
 
-- Provider服务端
+- **Provider服务端**
 
   服务端通过注册模块向注册中心发起注册，接收[OCTO-Scanner](https://github.com/Meituan-Dianping/octo-ns/tree/master/scanner)的健康检查心跳数据，确认服务端节点的可用性，如果发现节点异常则会修改节点状态为Dead，调用端会自动将该节点摘除；
 
@@ -22,7 +22,8 @@
 
   服务节点可以通过[OCTO-Portal](https://github.com/Meituan-Dianping/octo-portal)管理，进行节点禁用、启用、权重调整和删除的操作。
 
-- Invoker调用端     
+- **Invoker调用端**
+
   调用端通过注册中心获取服务列表并进行过滤筛选得到有效节点（校验状态、协议、服务接口等）;
 
   从获取的有效节点中通过路由和负载均衡向某一个服务节点发起请求，请求结束后向监控中心上报数据；
@@ -31,21 +32,21 @@
 
 ## 2.1 框架特点
 
-- 模块化，易扩展：
+- **模块化，易扩展**
 
    各个模块拆分实现，提供很多扩展点，可以根据需要扩展自己的实现模块，打造出适合自己服务的框架；
 
-- 微内核，可插拔：
+- **微内核，可插拔**
 
    核心模块不会依赖于任何具体扩展，每个实现模块都可以自由组合，按需引入；
 
-- 实现简洁，链路清晰：
+- **实现简洁，链路清晰**
 
    框架设计简洁，主干调用链路清晰；
 
-- 高性能，高可用：
+- **高性能，高可用**
 
-  默认提供Netty作为网络传输框架和Thrift协议，在目前的Java框架中表现较优，服务端1K数据压测QPS稳定在12W+ ；
+  默认提供Netty作为网络传输框架和Thrift协议，在目前的Java框架中表现较优，服务端1K数据压测QPS稳定在**12W+**；
 
   服务端节点异常自动降级探测，提升调用端服务的可用性。
   
@@ -58,7 +59,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dorado的核心模块是dorado-core，包含所有功能模块的接口定义，和各功能模块的通用实现，基于该模块可以随意实现其扩展并自由组合得到你想要的功能包。如图绿色模块是Dorado开源版本针对注册中心、协议、网络传输、数据监控提供的默认扩展，以后还会根据需要继续扩展更多模块。
    
-   扩展模块都是可插拔的，你可以选择二次开发或实现自己的模块进行替换，简单便捷，无需考虑核心链路的代码改造，当然除了图中示例的模块，你还可以基于Dorado的其它SPI接口进行扩展。具体扩展接口见功能介绍中的SPI扩展点。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扩展模块都是可插拔的，你可以选择二次开发或实现自己的模块进行替换，简单便捷，无需考虑核心链路的代码改造，当然除了图中示例的模块，你还可以基于Dorado的其它SPI接口进行扩展。具体扩展接口见功能介绍中的SPI扩展点。
    
    ![FrameworkPackage](https://github.com/Meituan-Dianping/octo-rpc/blob/master/dorado/dorado-doc/img/FrameworkPackage.svg)
    
@@ -70,17 +71,17 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论使用OCTO-NS还是Zookeeper进行注册，服务节点均可以在OCTO-Portal进行管理；
 
-- MNS：OCTO-NS命名服务
+- **MNS**：OCTO-NS命名服务
 
    在前面介绍中，给出的架构图即使用MNS作为注册中心，作为美团的内部实践，也是我们建议的使用方式。框架服务节点只需与本地Agent交互，减少网络开销。
 
-- Zookeeper：
+- **Zookeeper**
 
    如果你没有OCTO-NS服务，没关系，只要有部署好的Zookeeper服务，配置地址后就可以直接使用Dorado。而且因为OCTO-NS底层也是ZK，只要共用了一个Zookeeper集群，ZK与MNS模块就可以混合使用，便于使用者进行切换迁移。比如：你的服务端务注册到了OCTO-NS，调用端直接使用ZK可以正常的进行服务发现。
 
    当然若你的节点数量非常多，那我们还是推荐使用MNS作为注册中心。
 
-- Mock：
+- **Mock**
 
    如果你没有MNS也没有Zookeeper，但又想使用Dorado，可以将注册配置设置为mock，调用端配置直连，就可以简单的发起自己的RPC调用。
 
@@ -115,7 +116,7 @@
    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所以通常的埋点都比较笼统或部分的采集到了前面所提阶段的耗时，那么对于这种耗时差异问题我们怎么排查，其实50%以上的问题都是gc导致的，看下问题时间段机器的gc监控就行，还有一部分是网络抖动，一般也是有监控的，但剩下的呢，怎么查，对于偶发性问题都是过去时了，也不能用BTrace或Greys这类神器，而且这些工具提供的耗时粒度很细，我可能只想知道编解码序列化是不是带来较多耗时损耗。其实解决这类过去时问题很简单，就是精细化分阶段埋点和链路跟踪。
    
-- 分阶段数据埋点
+- **分阶段数据埋点**
 
    详细的数据埋点，会对核心逻辑植入太多代码，这也是为什么一开始不提供的原因，无法避免就尽量优雅实现。Dorado的埋点阶段信息、埋点逻辑和阶段耗时计算都在TraceTimeline这个类中，TraceTimeline是TraceParam的属性字段，TraceParam作为RpcInvocation的附属参数贯穿调用端或服务端整个链路。
    
@@ -127,7 +128,8 @@
    
    当然监控模块不是必须的，如果你没有性能监控服务，埋点的逻辑都不会执行。
 
-- 链路跟踪
+- **链路跟踪**
+
    若一个请求调用端耗时高，想对应查看该请求服务端的耗时请求，就需要将链路跟踪，实现链路跟踪就要依托于框架的参数透传，前面提到的TraceParam里有traceId属性，该信息会从调用端透传到服务端，由此就可以将一个请求的调用端和服务端关联起来。但是需要链路跟踪服务，Dorado开源版本暂未提供扩展支持，敬请期待。如果你有自己的链路跟踪服务，同样实现InvokeTrace接口就可以对接到你的服务中。Dorado框架可以同时支持多种上报服务，只要你将这些模块都包含进来，配置好InvokeTrace的SPI，就可以同时使用。
    
 [监控跟踪说明](https://github.com/Meituan-Dianping/octo-rpc/tree/master/dorado/dorado-doc/manual-user/Trace.md)
@@ -135,11 +137,11 @@
 ### 2.4.5 故障降级/摘除
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dorado目前是两种方式判断节点状态：
 
-- 主动失败检查：
+- **主动失败检查**
 
   具体场景是调用端发送请求失败或创建连接失败后，会将该服务节点权重临时降级为0，后台任务探测节点连接状态，直到异常节点可用后恢复权重。
 
-- 外部OCTO-Scanner检查：
+- **外部OCTO-Scanner检查**
 
   若你部署了OCTO-NS相关服务，服务端无论是使用OCTO-NS还是Zookeeper进行注册，都会接收到来自OCTO-Scanner的心跳检测，若发现节点不可用则会变更注册节点的状态，各个调用端都会收到变更从而摘除该节点；Scanner继续向不可用节点发心跳，若检测OK则恢复状态，各个调用端则会将该节点重新加会到服务列表。
   
@@ -190,33 +192,36 @@
   | **性能** | 服务端QPS稳定在12W+|
   
 # 4. 未来规划
-- 使用方式多样化
+- **使用方式多样化**
 
   后续我们将提供Thrift注解支持、集成Spring-Boot，为研发同学提供多种选择，提高研发效率。
 
-- 多协议支持
+- **多协议支持**
 
   暂时只支持OCTO协议或纯Thrift协议，后续我们将考虑提供其他协议并结合一些高效序列化框架如Protobuff、Kryo为大家提供更多高效的选择方案。
 
-- 可靠性保障
+- **可靠性保障**
 
   在目前基本的故障降级基础上，增加策略性的熔断降级、限流功能，用户可以根据服务特性配置相关参数更好的保障服务的可用性。
 
-- 路由策略
+- **路由策略**
 
   逐步提供美团内部的同城、同中心、同机房、灰度链路等多种灵活的路由策略。
 
-- 性能探索
+- **性能探索**
 
   引入协程、支持服务端异步、连接池等，在性能上持续探索。
 
-- 开源建设
+- **开源建设**
 
   随着内部版本的演进，我们会持续维护更新开源仓库代码和文档，逐步将美团服务治理的实践开放出去，更欢迎大家共建。
 
-目前还有部分功能未完全开放出来，后续我们将提供更多丰富的功能和选择策略，在高性能、高可用上我们也会继续探索，追求极致不断迭代Dorado，为社区贡献一份力量。                                
+目前还有部分功能未完全开放出来，后续我们将提供更多丰富的功能和选择策略，在高性能、高可用上我们也会继续探索，追求极致不断迭代Dorado，为社区贡献一份力量。
+
 
 # 5. 联系我们
-- Email: it_octo@meituan.com
+- Email: octo@meituan.com
 - Issues: [Issues](https://github.com/Meituan-Dianping/octo-rpc/issues)
+                             
+
 

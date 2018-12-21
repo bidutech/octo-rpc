@@ -63,7 +63,7 @@ Dorado同时支持通过Zookeeper来进行服务的注册与发现，使用该�
     <property name="registry" value="mock"/>                <!-- mock方式, 伪注册 -->
 </bean>
 ```
-```
+```xml
 <bean id="clientProxy" class="com.meituan.dorado.config.service.spring.ReferenceBean">
     <!-- ...省略其他配置... -->
     <property name="directConnAddress" value="ip:port,ip:port"/> <!-- 直连配置, 可配置多个节点 -->
